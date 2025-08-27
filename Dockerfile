@@ -2,7 +2,7 @@
 FROM nvidia/cuda:11.8.0-devel-ubuntu22.04
 
 ENV DEBIAN_FRONTEND=noninteractive
-ENV PYTHON_VERSION=3.12
+ENV PYTHON_VERSION=3.10
 ENV VLLM_CU_VERSION=118
 ENV VLLM_TARGET_VERSION="v0.10.1.1"
 
@@ -11,8 +11,6 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     software-properties-common \
     python${PYTHON_VERSION} \
-    python3-pip \
-    python3-venv \
     git \
     curl \
     ca-certificates \
