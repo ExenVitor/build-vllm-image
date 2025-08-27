@@ -28,7 +28,7 @@ RUN pip install --no-cache-dir uv
 
 RUN VLLM_WHEEL_URL="https://github.com/vllm-project/vllm/releases/download/v${VLLM_TARGET_VERSION}/vllm-${VLLM_TARGET_VERSION}+cu${VLLM_CU_VERSION}-cp38-abi3-manylinux1_x86_64.whl" && \
     echo "Downloading VLLM wheel from: ${VLLM_WHEEL_URL}" && \
-    uv pip install "${VLLM_WHEEL_URL}" \
+    uv pip install --system "${VLLM_WHEEL_URL}" \
     --extra-index-url https://download.pytorch.org/whl/cu${VLLM_CU_VERSION}
 
 
