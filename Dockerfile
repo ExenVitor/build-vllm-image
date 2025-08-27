@@ -11,6 +11,8 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     software-properties-common \
     python${PYTHON_VERSION} \
+    python3-pip \
+    python3-venv \
     git \
     curl \
     ca-certificates \
