@@ -17,7 +17,7 @@ on:
 
 env:
   IMAGE_NAME: vllm-cuda11.8
-  VLLM_VERSION: v0.10.1.1
+  VLLM_VERSION: 0.10.1.1
 
 jobs:
   build-and-push:
@@ -47,6 +47,6 @@ jobs:
           tags: |
             ${{ secrets.ACR_REPO_URL }}/${{ secrets.ACR_NAMESPACE }}/${{ env.IMAGE_NAME }}:${{ env.VLLM_VERSION }}
             ${{ secrets.ACR_REPO_URL }}/${{ secrets.ACR_NAMESPACE }}/${{ env.IMAGE_NAME }}:${{ env.VLLM_VERSION }}-${{ github.sha }}
-            ${{ secrets.ACR_REPO_URL }}/${{ secrets.ACR_NAMESPACE }}/${{ env.IMAGE_NAME }}:latest 
+            ${{ secrets.ACR_REPO_URL }}/${{ secrets.ACR_NAMESPACE }}/${{ env.IMAGE_NAME }}:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
