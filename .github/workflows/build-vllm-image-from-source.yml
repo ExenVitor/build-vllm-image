@@ -1,0 +1,48 @@
+name: Build VLLM Official Docker Image (CUDA 11.8) and Push to ACR
+
+on:
+  workflow_dispatch:
+
+env:
+  ACR_REGISTRY: ${{ secrets.ACR_REPO_URL }}
+  ACR_NAMESPACE: ${{ secrets.ACR_NAMESPACE }}
+  IMAGE_NAME: vllm-cuda11.8
+  VLLM_VERSION_TAG: 0.10.1.1
+  TARGET_CUDA_VERSION: 11.8.0
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout VLLM official repository
+        uses: actions/checkout@v4
+        with:
+          repository: vllm-project/vllm
+          ref: v${{ env.VLLM_VERSION_TAG }}
+          path: vllm-repo
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to Alibaba Cloud Container Registry (ACR)
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.ACR_REGISTRY }}
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
+
+      - name: Build and push Docker image to ACR
+        uses: docker/build-push-action@v5
+        with:
+          context: vllm-repo
+          push: true
+          target: vllm-openai
+          tags: |
+            ${{ env.ACR_REGISTRY }}/${{ env.ACR_NAMESPACE }}/${{ env.IMAGE_NAME }}:${{ env.VLLM_VERSION_TAG }}
+            ${{ env.ACR_REGISTRY }}/${{ env.ACR_NAMESPACE }}/${{ env.IMAGE_NAME }}:${{ env.VLLM_VERSION_TAG }}-${{ github.sha }}
+            ${{ env.ACR_REGISTRY }}/${{ env.ACR_NAMESPACE }}/${{ env.IMAGE_NAME }}:latest
+          build-args: |
+            CUDA_VERSION=${{ env.TARGET_CUDA_VERSION }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
