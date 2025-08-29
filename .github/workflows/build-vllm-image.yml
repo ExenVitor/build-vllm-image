@@ -48,5 +48,7 @@ jobs:
             ${{ secrets.ACR_REPO_URL }}/${{ secrets.ACR_NAMESPACE }}/${{ env.IMAGE_NAME }}:${{ env.VLLM_VERSION }}
             ${{ secrets.ACR_REPO_URL }}/${{ secrets.ACR_NAMESPACE }}/${{ env.IMAGE_NAME }}:${{ env.VLLM_VERSION }}-${{ github.sha }}
             ${{ secrets.ACR_REPO_URL }}/${{ secrets.ACR_NAMESPACE }}/${{ env.IMAGE_NAME }}:latest
+          build-args: |
+            VLLM_TARGET_VERSION=${{ env.VLLM_VERSION }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
