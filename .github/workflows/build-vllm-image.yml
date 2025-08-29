@@ -17,7 +17,7 @@ on:
 
 env:
   IMAGE_NAME: vllm-cuda11.8
-  VLLM_VERSION: 0.10.1.1
+  VLLM_VERSION: 0.9.2
 
 jobs:
   build-and-push:
